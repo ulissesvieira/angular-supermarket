@@ -1,3 +1,43 @@
-<p>
-  product-list works!
-</p>
+<div class="container">
+   <div class="row">
+      <div class="col">
+         <section>
+            <header class="header">
+               <div class="row">
+                  <div class="col-md-4">
+                     <h1>Products</h1>
+                  </div>
+                  <div class="col-md-4">
+                  </div>
+                  <div class="col-md-2">
+                     <button type="button" class="btn btn-primary" (click)="redirectNewProductPage()">New Product</button>
+                  </div>
+                  </div>
+               </header>
+            </section>
+         <section class="main">
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th>Código</th>
+                     <th>SKU</th>
+                     <th>Descrição</th>
+                     <th></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let product of products">
+                     <td>{{product.id}}</td>
+                     <td>{{product.sku}}</td>
+                     <td>{{product.description}}</td>
+                     <td>
+                        <button type="button" class="btn btn-success" (click)="editProductPage(user)">Edit</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteProductPage(user)">Delete</button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </section>
+      </div>
+   </div>
+</div>
