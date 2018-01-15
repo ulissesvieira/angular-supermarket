@@ -1,8 +1,9 @@
-import { Product } from './../product.class';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ProductService } from '../product.service';
 import { Product } from '../product.class';
+import { error } from 'selenium-webdriver';
 
 @Component({
    selector: 'app-product-list',
@@ -12,7 +13,8 @@ import { Product } from '../product.class';
 export class ProductListComponent implements OnInit {
    products : Product[];
 
-   constructor(private productService : ProductService) { }
+   constructor(private productService : ProductService,
+               private router : Router) { }
 
    ngOnInit() {
       this.getAllProducts();
@@ -30,14 +32,21 @@ export class ProductListComponent implements OnInit {
    }
 
    editProductPage(prod : Product) {
-
+      this.router.navigate(['/product/edit', prod.id]);
    }
 
    deleteProductPage(prod : Product) {
-
+      this.productService.deleteProduct(prod).subscribe(
+         prods => {
+            this.getAllProducts();
+         },
+         error => {
+            console.log(error);
+         }
+      );
    }
 
    redirectNewProductPage() {
-
+      this.router.navigate(['/product/create']);
    }
 }
