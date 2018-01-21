@@ -37,8 +37,10 @@ export class ProductListComponent implements OnInit {
 
    deleteProductPage(prod: Product) {
       this.productService.deleteProduct(prod).subscribe(
-         prods => {
-            this.getAllProducts();
+         res => {
+            if (res) {
+               this.getAllProducts();
+            }
          },
          err => {
             console.log(err);

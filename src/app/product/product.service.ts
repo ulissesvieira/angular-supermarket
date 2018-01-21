@@ -6,66 +6,54 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { Product } from './product.class';
-import { PRODUCTS } from './product-mock.class';
 import { SpringRouting } from '../utils/spring-routing.class';
 
 @Injectable()
 export class ProductService {
-   private FIRST_ID = 1;
-   products = PRODUCTS;
+   private FIRST_ID = 0;
    private errorProduct = new Product(-1, 'SKU_ERROR', 'Error');
 
    constructor(private http: Http) { }
 
    getAllProducts(): Observable<Product[]> {
       return this.http.get(SpringRouting.PRODUCT_LISTING)
-      .map((res: Response) => res.json())
-      .catch(this.handleErrors);
+                      .map((res: Response) => res.json())
+                      .catch(this.handleErrors);
    }
 
    saveProduct(product: Product): Observable<Product> {
-      this.products.push(product);
-
-      return of(product);
+      return this.http.post(SpringRouting.PRODUCT_SAVE, product)
+                      .map((res: Response) => res.json())
+                      .catch(this.handleErrors);
    }
 
    findById(id: number): Observable<Product> {
-      for (let i = 0; i < this.products.length; i++) {
-         if (this.products[i].id === id) {
-            return of(this.products[i]);
-         }
+      const prod: Observable<Product> =
+             this.http.get(SpringRouting.PRODUCT_FIND_BY_ID + id)
+                      .map((res: Response) => res.json())
+                      .catch(this.handleErrors);
+
+      if (prod == null) {
+         return of(this.errorProduct);
       }
 
-      return of(this.errorProduct);
+      return prod;
    }
 
    getLastId(): number {
-      let id = this.FIRST_ID;
-      if (this.products.length && this.products.length > 0) {
-         id = this.products[this.products.length - 1].id + 1;
-      }
-
-      return id;
+      return this.FIRST_ID;
    }
 
    updateProduct(product: Product): Observable<Product> {
-      for (let i = 0; i < this.products.length; i++) {
-         if (this.products[i].id === product.id) {
-            this.products[i].sku = product.sku;
-            this.products[i].description = product.description;
-
-            return of(this.products[i]);
-         }
-      }
-
-      return of(this.errorProduct);
+      return this.http.put(SpringRouting.PRODUCT_UPDATE, product)
+                      .map((res: Response) => res.json())
+                      .catch(this.handleErrors);
    }
 
-   deleteProduct(product: Product): Observable<Product[]> {
-      const prods = this.products.filter(prod => product.id !== prod.id);
-      this.products = prods;
-
-      return of(this.products);
+   deleteProduct(product: Product): Observable<Boolean> {
+      return this.http.delete(SpringRouting.PRODUCT_DELETE + product.id)
+                      .map((res: Response) => res.json())
+                      .catch(this.handleErrors);
    }
 
    handleErrors(errors: any): Observable<Product[]> {
