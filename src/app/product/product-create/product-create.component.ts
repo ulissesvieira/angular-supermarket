@@ -10,40 +10,44 @@ import { Product } from '../product.class';
    templateUrl: './product-create.component.html',
    styleUrls: ['./product-create.component.css']
 })
-export class ProductCreateComponent implements OnInit {
+export class ProductCreateComponent implements OnInit, OnDestroy {
    productForm: FormGroup;
-   private productId : number;
-   private errors : any;
-   private sub : any;
+   titleAlert: string;
+   private productId: number;
+   private errors: any;
+   private sub: any;
 
-   constructor(private formBuilder : FormBuilder,
-               private productService : ProductService,
-               private router : Router,
-               private route : ActivatedRoute) { }
+   constructor(private formBuilder: FormBuilder,
+               private productService: ProductService,
+               private router: Router,
+               private route: ActivatedRoute) { }
 
    ngOnInit() {
-      this.sub = this.route.params.subscribe(params => this.productId = params['id']);
+      this.sub = this.route.params.subscribe(params => this.productId = Number(params['id']));
 
       this.createForm();
 
       if (!this.productId) {
-         let nextId = this.productService.getLastId();
+         const nextId = this.productService.getLastId();
          this.productForm.patchValue({
-            id : nextId,
+            id : Number(nextId),
          });
-      }
-      else {
-         this.productService.findById(this.productId).subscribe(prod => {
-            this.productForm.setValue({
-               id : prod.id,
-               sku : prod.sku,
-               description : prod.description,
-            });
-         },
-         error => {
-            this.errors = error;
-            console.log(error);
-         },);
+      } else {
+         this.productService.findById(this.productId).subscribe(
+            prod => {
+               if (prod.id > 0) {
+                  this.productForm.setValue({
+                     id : Number(prod.id),
+                     sku : prod.sku,
+                     description : prod.description,
+                  });
+               } else {
+                  this.handleErrors('Product ' + this.productId + ' not found!');
+                  this.redirectListingPage();
+               }
+            },
+            error => this.handleErrors(error),
+         );
       }
    }
 
@@ -51,47 +55,40 @@ export class ProductCreateComponent implements OnInit {
       this.sub.unsubscribe();
    }
 
-   createForm() : void {
+   createForm(): void {
       this.productForm = this.formBuilder.group({
          id : ['', Validators.required],
-         sku : ['', Validators.required],
-         description : ['', Validators.required]
+         sku : ['', [Validators.required, Validators.minLength(3)]],
+         description : ['', [Validators.required, Validators.minLength(3)]],
       });
    }
 
-   onSubmit() : void {
+   onSubmit(): void {
       if (this.productForm.valid) {
-         let prod = this.getModelProduct();
+         const prod = this.getModelProduct();
 
          if (this.productId) {
             this.productService.updateProduct(prod).subscribe(
-               prod =>{
-                  this.updateModelProduct(prod);
+               prd => {
+                  this.updateModelProduct(prd);
                   this.redirectListingPage();
                } ,
-               error => {
-                  this.errors = error;
-                  console.log(error);
-               },
+               error => this.handleErrors(error),
             );
-         }
-         else {
+         } else {
             this.productService.saveProduct(prod).subscribe(
-               prod =>{
-                  this.updateModelProduct(prod);
+               prd => {
+                  this.updateModelProduct(prd);
                   this.redirectListingPage();
                } ,
-               error => {
-                  this.errors = error;
-                  console.log(error);
-               },
+               error => this.handleErrors(error),
             );
          }
       }
    }
 
-   getModelProduct() : Product {
-      let prod : Product = new Product(
+   getModelProduct(): Product {
+      const prod: Product = new Product(
          this.productForm.controls['id'].value,
          this.productForm.controls['sku'].value,
          this.productForm.controls['description'].value,
@@ -100,15 +97,20 @@ export class ProductCreateComponent implements OnInit {
       return prod;
    }
 
-   updateModelProduct(prod : Product) : void {
+   updateModelProduct(prod: Product): void {
       this.productForm.setValue({
-         id : prod.id,
+         id : Number(prod.id),
          sku : prod.sku,
          description : prod.description,
       });
    }
 
-   redirectListingPage() : void {
+   redirectListingPage(): void {
       this.router.navigate(['/products']);
+   }
+
+   private handleErrors(errs: any): void {
+      this.errors = errs;
+      console.log(errs);
    }
 }

@@ -1,26 +1,34 @@
 <div class="container">
    <div class="row">
-     <div class="col">
-       <section>
-         <form novalidate [formGroup]="productForm" (ngSubmit)="onSubmit()">
-           <fieldset>
-             <div class="form-group">
-               <label>SKU</label>
-               <input type="text" class="form-control" formControlName="sku">
-             </div>
-           </fieldset>
+      <div class="col">
+         <section>
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+               <fieldset>
+                  <div class="form-group">
+                     <app-extended-input [labelText]="'SKU'"
+                                         [inputErrors]="productForm.controls['sku'].errors"
+                                         [errorDefs]="{required: 'SKU is required',
+                                                       minlength: 'SKU should be at least 3 digits'}">
+                        <input type="text" class="form-control" formControlName="sku">
+                     </app-extended-input>
+                  </div>
+               </fieldset>
 
-           <div class="form-group">
-             <label>Description</label>
-             <input type="email" class="form-control" formControlName="description">
-           </div>
+               <div class="form-group">
+                  <app-extended-input [labelText]="'Description'"
+                                      [inputErrors]="productForm.controls['description'].errors"
+                                      [errorDefs]="{required: 'Description is required',
+                                                    minlength: 'Description should be at least 3 digits'}">
+                     <input type="text" class="form-control" formControlName="description">
+                  </app-extended-input>
+               </div>
 
-           <button type="submit" class="btn btn-primary"  [disabled]="!productForm.valid" >Submit</button>
-           <button type="button" class="btn btn-warning" (click)="redirectListingPage()">Cancel</button>
-           <pre>{{productForm.value | json}}</pre>
-           <pre>{{erros}}}</pre>
-         </form>
-       </section>
-     </div>
+               <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Submit</button>
+               <button type="button" class="btn btn-warning" (click)="redirectListingPage()">Cancel</button>
+               <pre>{{productForm.value | json}}</pre>
+               <pre>{{erros}}}</pre>
+            </form>
+         </section>
+      </div>
    </div>
- </div>
+</div>

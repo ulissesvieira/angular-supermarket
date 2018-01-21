@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductCreateComponent } from './product-create.component';
+import { ExtendedInputComponent } from './extended-input.component';
 
-describe('ProductCreateComponent', () => {
-   let component: ProductCreateComponent;
-   let fixture: ComponentFixture<ProductCreateComponent>;
+describe('ExtendedInputComponent', () => {
+   let component: ExtendedInputComponent;
+   let fixture: ComponentFixture<ExtendedInputComponent>;
 
    beforeEach(async(() => {
       TestBed.configureTestingModule({
-         declarations: [ProductCreateComponent]
+         declarations: [ExtendedInputComponent]
       })
          .compileComponents();
    }));
 
    beforeEach(() => {
-      fixture = TestBed.createComponent(ProductCreateComponent);
+      fixture = TestBed.createComponent(ExtendedInputComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
    });

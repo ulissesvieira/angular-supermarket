@@ -11,10 +11,10 @@ import { error } from 'selenium-webdriver';
    styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-   products : Product[];
+   products: Product[];
 
-   constructor(private productService : ProductService,
-               private router : Router) { }
+   constructor(private productService: ProductService,
+      private router: Router) { }
 
    ngOnInit() {
       this.getAllProducts();
@@ -27,21 +27,21 @@ export class ProductListComponent implements OnInit {
          },
          err => {
             console.log(err);
-          }
+         }
       );
    }
 
-   editProductPage(prod : Product) {
+   editProductPage(prod: Product) {
       this.router.navigate(['/product/edit', prod.id]);
    }
 
-   deleteProductPage(prod : Product) {
+   deleteProductPage(prod: Product) {
       this.productService.deleteProduct(prod).subscribe(
          prods => {
             this.getAllProducts();
          },
-         error => {
-            console.log(error);
+         err => {
+            console.log(err);
          }
       );
    }
