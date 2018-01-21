@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/observable';
 import { of } from 'rxjs/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 import { Product } from './product.class';
 import { PRODUCTS } from './product-mock.class';
+import { SpringRouting } from '../utils/spring-routing.class';
 
 @Injectable()
 export class ProductService {
@@ -11,10 +15,12 @@ export class ProductService {
    products = PRODUCTS;
    private errorProduct = new Product(-1, 'SKU_ERROR', 'Error');
 
-   constructor() { }
+   constructor(private http: Http) { }
 
    getAllProducts(): Observable<Product[]> {
-      return of(this.products);
+      return this.http.get(SpringRouting.PRODUCT_LISTING)
+      .map((res: Response) => res.json())
+      .catch(this.handleErrors);
    }
 
    saveProduct(product: Product): Observable<Product> {
@@ -60,5 +66,10 @@ export class ProductService {
       this.products = prods;
 
       return of(this.products);
+   }
+
+   handleErrors(errors: any): Observable<Product[]> {
+      console.log(errors);
+      return Observable.throw(errors.json().error || 'Server error');
    }
 }

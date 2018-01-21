@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductListComponent } from './product-list/product-list.component';
@@ -12,7 +13,7 @@ import { ExtendedInputComponent } from '../utils/extended-input/extended-input.c
       CommonModule,
       ProductRoutingModule,
       ReactiveFormsModule,
-      FormsModule,
+      HttpModule,
    ],
    declarations: [ProductListComponent, ProductCreateComponent, ExtendedInputComponent],
 })

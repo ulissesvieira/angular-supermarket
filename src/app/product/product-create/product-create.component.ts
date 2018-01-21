@@ -106,7 +106,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
    }
 
    redirectListingPage(): void {
-      this.router.navigate(['/products']);
+      this.router.navigate(['products']);
    }
 
    private handleErrors(errs: any): void {

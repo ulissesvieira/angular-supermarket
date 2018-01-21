@@ -32,7 +32,7 @@ export class ProductListComponent implements OnInit {
    }
 
    editProductPage(prod: Product) {
-      this.router.navigate(['/product/edit', prod.id]);
+      this.router.navigate(['product/edit', prod.id]);
    }
 
    deleteProductPage(prod: Product) {
@@ -47,6 +47,6 @@ export class ProductListComponent implements OnInit {
    }
 
    redirectNewProductPage() {
-      this.router.navigate(['/product/create']);
+      this.router.navigate(['product/create']);
    }
 }
