@@ -22,7 +22,7 @@
                   <tr *ngFor="let client of clients">
                      <td>{{client.id}}</td>
                      <td>{{client.name}}</td>
-                     <td>{{client.birthday}}</td>
+                     <td>{{client.birthday | date: 'dd/MM/yyyy'}}</td>
                      <td>
                         <button type="button" class="btn btn-success" (click)="editClientPage(client)">Edit</button>
                         <button type="button" class="btn btn-danger" (click)="deleteClientPage(client)">Delete</button>

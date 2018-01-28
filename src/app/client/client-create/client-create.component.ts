@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDatepicker } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { ClientService } from '../client.service';
@@ -14,6 +15,8 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 })
 export class ClientCreateComponent implements OnInit, OnDestroy {
    clientForm: FormGroup;
+   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
+
    private clientId: number;
    private errors: any;
    private sub: Subscription;
@@ -42,7 +45,7 @@ export class ClientCreateComponent implements OnInit, OnDestroy {
                   this.clientForm.setValue({
                      id: Number(cli.id),
                      name: cli.name,
-                     birthday: cli.birthday
+                     birthday: new Date(cli.birthday)
                   });
                } else {
                   this.handleErrors('Client ' + this.clientId + ' not found!');
