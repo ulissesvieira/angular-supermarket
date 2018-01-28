@@ -4,12 +4,14 @@ import { AppComponent } from './app.component';
 import { DateAdapter } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
+import { DateFormat } from './utils/date-format';
 
 import { ProductModule } from './product/product.module';
 import { ProductService } from './product/product.service';
 import { ClientModule } from './client/client.module';
 import { ClientService } from './client/client.service';
-import { DateFormat } from './utils/date-format';
+import { AddressModule } from './address/address.module';
+import { AddressService } from './address/address.service';
 
 @NgModule({
    declarations: [
@@ -20,8 +22,9 @@ import { DateFormat } from './utils/date-format';
       AppRoutingModule,
       ProductModule,
       ClientModule,
+      AddressModule
    ],
-   providers: [ProductService, ClientService,
+   providers: [ProductService, ClientService, AddressService,
       [
          {provide: DateAdapter, useClass: DateFormat}
       ]],
