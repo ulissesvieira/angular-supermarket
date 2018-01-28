@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDatepicker } from '@angular/material';
@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ClientService } from '../client.service';
 import { Client } from '../client.class';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
    selector: 'app-client-create',
@@ -71,7 +70,7 @@ export class ClientCreateComponent implements OnInit, OnDestroy {
 
    onSubmit() {
       if (this.clientForm.valid) {
-         const clientModel = this.getModelClient();
+         const clientModel = this.getModel();
 
          if (this.clientId) {
             this.clientService.updateClient(clientModel).subscribe(
@@ -93,7 +92,7 @@ export class ClientCreateComponent implements OnInit, OnDestroy {
       }
    }
 
-   getModelClient(): Client {
+   getModel(): Client {
       const client: Client = new Client(
          this.clientForm.controls['id'].value,
          this.clientForm.controls['name'].value,

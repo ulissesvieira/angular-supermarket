@@ -14,16 +14,16 @@
                            <input type="text" class="form-control" formControlName="sku">
                         </app-extended-input>
                      </div>
-                  </fieldset>
 
-                  <div class="form-group">
-                     <app-extended-input [labelText]="'Description'"
-                                       [inputErrors]="productForm.controls['description'].errors"
-                                       [errorDefs]="{required: 'Description is required',
-                                                      minlength: 'Description should be at least 3 digits'}">
-                        <input type="text" class="form-control" formControlName="description">
-                     </app-extended-input>
-                  </div>
+                     <div class="form-group">
+                        <app-extended-input [labelText]="'Description'"
+                                          [inputErrors]="productForm.controls['description'].errors"
+                                          [errorDefs]="{required: 'Description is required',
+                                                         minlength: 'Description should be at least 3 digits'}">
+                           <input type="text" class="form-control" formControlName="description">
+                        </app-extended-input>
+                     </div>
+                  </fieldset>
 
                   <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Submit</button>
                   <button type="button" class="btn btn-warning" (click)="redirectListingPage()">Cancel</button>

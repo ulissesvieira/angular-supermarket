@@ -18,6 +18,10 @@ export class ExtendedInputComponent implements OnChanges {
    constructor() { }
 
    ngOnChanges(changes: any): void {
+      if (!changes.inputErrors) {
+         return;
+      }
+
       const errors: any = changes.inputErrors.currentValue;
       this.errorMessage = '';
 

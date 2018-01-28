@@ -68,7 +68,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
 
    onSubmit(): void {
       if (this.productForm.valid) {
-         const prod = this.getModelProduct();
+         const prod = this.getModel();
 
          if (this.productId) {
             this.productService.updateProduct(prod).subscribe(
@@ -90,7 +90,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
       }
    }
 
-   getModelProduct(): Product {
+   getModel(): Product {
       const prod: Product = new Product(
          this.productForm.controls['id'].value,
          this.productForm.controls['sku'].value,

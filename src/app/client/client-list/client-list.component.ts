@@ -24,9 +24,7 @@ export class ClientListComponent implements OnInit {
          res => {
             this.clients = res;
          },
-         err => {
-            console.log(err);
-         }
+         err => this.handleErrors(err),
       );
    }
 
@@ -41,13 +39,15 @@ export class ClientListComponent implements OnInit {
                this.getAllClients();
             }
          },
-         err => {
-            console.log(err);
-         }
+         err => this.handleErrors(err),
       );
    }
 
    redirectNewClientPage() {
       this.router.navigate(['client/create']);
+   }
+
+   handleErrors(errs: any) {
+      console.log(errs);
    }
 }

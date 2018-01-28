@@ -30,4 +30,20 @@ export class SpringRouting {
    static get CLIENT_DELETE() {
       return 'app/client/delete/';
    }
+
+   static get ADDRESS_LISTING() {
+      return 'app/address/list';
+   }
+   static get ADDRESS_SAVE() {
+      return 'app/address/save';
+   }
+   static get ADDRESS_FIND_BY_ID() {
+      return 'app/address/findById/';
+   }
+   static get ADDRESS_UPDATE() {
+      return 'app/address/update';
+   }
+   static get ADDRESS_DELETE() {
+      return 'app/address/delete/';
+   }
 }

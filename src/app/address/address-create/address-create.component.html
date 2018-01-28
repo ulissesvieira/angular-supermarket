@@ -1,3 +1,55 @@
-<p>
-  address-create works!
-</p>
+<div class="container">
+      <div class="row">
+         <div class="col">
+            <section class="main">
+               <div>
+                  <br><br>
+                  <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+                     <fieldset>
+                        <div class="form-group">
+                           <app-extended-input [labelText]="'Street'"
+                                               [inputErrors]="addressForm.controls['street'].errors"
+                                               [errorDefs]="{required: 'Street is required',
+                                                            minlength: 'Street should be at least 3 digits'}">
+                              <input type="text" class="form-control" formControlName="street">
+                           </app-extended-input>
+                        </div>
+
+                        <div class="form-group">
+                           <app-extended-input [labelText]="'Number'"
+                                               [inputErrors]="addressForm.controls['rsNumber'].errors"
+                                               [errorDefs]="{required: 'Number is required'}">
+                              <input type="text" class="form-control" formControlName="rsNumber">
+                           </app-extended-input>
+                        </div>
+
+                        <div class="form-group">
+                           <app-extended-input [labelText]="'City'">
+                              <input type="text" class="form-control" formControlName="city">
+                           </app-extended-input>
+                        </div>
+
+                        <div class="form-group">
+                           <app-extended-input [labelText]="'State'">
+                              <input type="text" class="form-control" formControlName="state">
+                           </app-extended-input>
+                        </div>
+
+                        <div class="form-group">
+                           <app-extended-input [labelText]="'Zip Code'"
+                                               [inputErrors]="addressForm.controls['zip'].errors"
+                                               [errorDefs]="{required: 'Zip Code is required'}">
+                              <input type="text" class="form-control" formControlName="zip">
+                           </app-extended-input>
+                        </div>
+                     </fieldset>
+
+                     <button type="submit" class="btn btn-primary" [disabled]="!addressForm.valid">Submit</button>
+                     <button type="button" class="btn btn-warning" (click)="redirectListingPage()">Cancel</button>
+                     <pre>{{addressForm.value | json}}</pre>
+                  </form>
+               </div>
+            </section>
+         </div>
+      </div>
+   </div>

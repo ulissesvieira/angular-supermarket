@@ -24,9 +24,7 @@ export class ProductListComponent implements OnInit {
          prods => {
             this.products = prods;
          },
-         err => {
-            console.log(err);
-         }
+         err => this.handleErrors(err),
       );
    }
 
@@ -41,13 +39,15 @@ export class ProductListComponent implements OnInit {
                this.getAllProducts();
             }
          },
-         err => {
-            console.log(err);
-         }
+         err => this.handleErrors(err),
       );
    }
 
    redirectNewProductPage() {
       this.router.navigate(['product/create']);
+   }
+
+   handleErrors(errs: any) {
+      console.log(errs);
    }
 }
