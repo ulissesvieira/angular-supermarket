@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ProductService } from '../product.service';
 import { Product } from '../product.class';
@@ -15,7 +16,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
    titleAlert: string;
    private productId: number;
    private errors: any;
-   private sub: any;
+   private sub: Subscription;
 
    constructor(private formBuilder: FormBuilder,
                private productService: ProductService,
@@ -23,7 +24,9 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
                private route: ActivatedRoute) { }
 
    ngOnInit() {
-      this.sub = this.route.params.subscribe(params => this.productId = Number(params['id']));
+      this.sub = this.route.params.subscribe(
+         params => this.productId = Number(params['id'])
+      );
 
       this.createForm();
 
@@ -70,7 +73,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
          if (this.productId) {
             this.productService.updateProduct(prod).subscribe(
                prd => {
-                  this.updateModelProduct(prd);
+                  this.updateModel(prd);
                   this.redirectListingPage();
                } ,
                error => this.handleErrors(error),
@@ -78,7 +81,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
          } else {
             this.productService.saveProduct(prod).subscribe(
                prd => {
-                  this.updateModelProduct(prd);
+                  this.updateModel(prd);
                   this.redirectListingPage();
                } ,
                error => this.handleErrors(error),
@@ -97,7 +100,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
       return prod;
    }
 
-   updateModelProduct(prod: Product): void {
+   updateModel(prod: Product): void {
       this.productForm.setValue({
          id : Number(prod.id),
          sku : prod.sku,

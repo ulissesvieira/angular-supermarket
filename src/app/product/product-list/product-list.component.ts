@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { ProductService } from '../product.service';
 import { Product } from '../product.class';
-import { error } from 'selenium-webdriver';
 
 @Component({
    selector: 'app-product-list',

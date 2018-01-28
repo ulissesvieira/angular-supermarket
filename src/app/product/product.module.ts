@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
+import { UtilsModule } from '../utils/utils.module';
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
-import { ExtendedInputComponent } from '../utils/extended-input/extended-input.component';
 
 @NgModule({
    imports: [
       CommonModule,
       ProductRoutingModule,
-      ReactiveFormsModule,
       HttpModule,
+      ReactiveFormsModule,
+      UtilsModule
    ],
-   declarations: [ProductListComponent, ProductCreateComponent, ExtendedInputComponent],
+   declarations: [ProductListComponent, ProductCreateComponent],
 })
 export class ProductModule { }

@@ -1,3 +1,36 @@
-<p>
-  client-list works!
-</p>
+<div class="container">
+   <div class="row">
+      <div class="col">
+         <section class="main">
+            <br>
+            <div>
+               <h1>
+                  Clients
+                  <button type="button" class="btn btn-primary" (click)="redirectNewClientPage()">New Client</button>
+               </h1>
+            </div>
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th>Código</th>
+                     <th>Nome</th>
+                     <th>Data Nascimento</th>
+                     <th></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let client of clients">
+                     <td>{{client.id}}</td>
+                     <td>{{client.name}}</td>
+                     <td>{{client.birthday}}</td>
+                     <td>
+                        <button type="button" class="btn btn-success" (click)="editClientPage(client)">Edit</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteClientPage(client)">Delete</button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </section>
+      </div>
+   </div>
+</div>

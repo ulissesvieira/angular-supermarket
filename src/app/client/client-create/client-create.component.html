@@ -1,3 +1,35 @@
-<p>
-  client-create works!
-</p>
+<div class="container">
+      <div class="row">
+         <div class="col">
+            <section class="main">
+               <div>
+                  <br><br>
+                  <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+                     <fieldset>
+                        <div class="form-group">
+                           <app-extended-input [labelText]="'Name'"
+                                               [inputErrors]="clientForm.controls['name'].errors"
+                                               [errorDefs]="{required: 'Name is required',
+                                                             minlength: 'Name should be at least 3 digits'}">
+                              <input type="text" class="form-control" formControlName="name">
+                           </app-extended-input>
+                        </div>
+                     </fieldset>
+
+                     <div class="form-group">
+                        <app-extended-input [labelText]="'Birthday'"
+                                            [inputErrors]="clientForm.controls['birthday'].errors"
+                                            [errorDefs]="{required: 'Birthday is required'}">
+                           <input type="text" class="form-control" formControlName="birthday">
+                        </app-extended-input>
+                     </div>
+
+                     <button type="submit" class="btn btn-primary" [disabled]="!clientForm.valid">Submit</button>
+                     <button type="button" class="btn btn-warning" (click)="redirectListingPage()">Cancel</button>
+                     <pre>{{clientForm.value | json}}</pre>
+                  </form>
+               </div>
+            </section>
+         </div>
+      </div>
+   </div>
