@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {} from './product/product.module';
+import { GeneralSearchDialogComponent } from './dialogs/general-search-dialog/general-search-dialog.component';
 
 const routes: Routes = [
-   // {path : '', redirectTo : '/products', pathMatch : 'full'},
+    {path : 'dialogs', component: GeneralSearchDialogComponent},
 ];
 
 @NgModule({

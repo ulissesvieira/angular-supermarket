@@ -13,6 +13,8 @@ import { ClientService } from './client/client.service';
 import { AddressModule } from './address/address.module';
 import { AddressService } from './address/address.service';
 
+import { GeneralSearchDialogModule } from './dialogs/general-search-dialog/general-search-dialog.module';
+
 @NgModule({
    declarations: [
       AppComponent,
@@ -22,7 +24,8 @@ import { AddressService } from './address/address.service';
       AppRoutingModule,
       ProductModule,
       ClientModule,
-      AddressModule
+      AddressModule,
+      GeneralSearchDialogModule
    ],
    providers: [ProductService, ClientService, AddressService,
       [
