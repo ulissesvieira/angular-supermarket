@@ -34,6 +34,9 @@ export class SpringRouting {
    static get ADDRESS_LISTING() {
       return 'app/address/list';
    }
+   static get ADDRESS_SEARCH() {
+      return 'app/address/search';
+   }
    static get ADDRESS_SAVE() {
       return 'app/address/save';
    }

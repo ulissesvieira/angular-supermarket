@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { GeneralSearchDialogComponent } from './general-search-dialog.component';
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @NgModule({
    imports: [
@@ -16,7 +17,7 @@ import { SearchDialogComponent } from './search-dialog/search-dialog.component';
       MatCardModule,
       BrowserAnimationsModule
    ],
-   declarations: [GeneralSearchDialogComponent, SearchDialogComponent],
+   declarations: [GeneralSearchDialogComponent, SearchDialogComponent, PaginationComponent],
    entryComponents: [SearchDialogComponent]
 })
 export class GeneralSearchDialogModule { }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 
 import { Address } from './address.class';
 import { SpringRouting } from '../utils/spring-routing.class';
+import { PaginationSettings, PaginationResult } from '../dialogs/pagination/pagination.module';
 
 @Injectable()
 export class AddressService {
@@ -17,6 +18,14 @@ export class AddressService {
 
    getAllAddresses(): Observable<Address[]> {
       return this.http.get(SpringRouting.ADDRESS_LISTING)
+                      .map((res: Response) => res.json())
+                      .catch(this.handleErrors);
+   }
+
+   search(settings: PaginationSettings): Observable<PaginationResult> {
+      const params = this.setParams(settings);
+
+      return this.http.get(SpringRouting.ADDRESS_SEARCH, {params: params})
                       .map((res: Response) => res.json())
                       .catch(this.handleErrors);
    }
@@ -55,6 +64,17 @@ export class AddressService {
                       .map((res: Response) => res.json())
                       .catch(this.handleErrors);
    }
+
+   private setParams(parameters): URLSearchParams {
+      const params = new URLSearchParams();
+      const keys = Object.keys(parameters);
+
+      keys.forEach( (key) => {
+          params.append(key, parameters[key].toString());
+      });
+
+      return params;
+  }
 
    handleErrors(errors: any): Observable<Address[]> {
       console.log(errors);
