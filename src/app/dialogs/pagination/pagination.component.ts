@@ -23,12 +23,11 @@ export class PaginationComponent implements OnInit {
    }
 
    setPage(page: number) {
-      if (page < 1 || page > this.pager.totalPages) {
+      if (page !== 1 && (page < 1 || page > this.pager.totalPages)) {
          return;
       }
 
-      this.settings = new PaginationSettings(page.toString(), this.pager.totalPages.toString());
-      // get pager object from service
+      this.settings = new PaginationSettings(page.toString());
       this.addressService.search(this.settings).subscribe(
          res => {
             this.pager = res;

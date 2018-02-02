@@ -5,10 +5,6 @@ export class PaginationResult {
                public totalPages?: number,
                public startPage?: number,
                public endPage?: number,
-               public startIndex?: number,
-               public endIndex?: number,
                public pages?: number[],
-               public items?: any[]) {
-                  this.totalPages = 10;
-               }
+               public items?: any[]) { }
 }

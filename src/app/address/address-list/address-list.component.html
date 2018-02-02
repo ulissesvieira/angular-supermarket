@@ -1,42 +1,42 @@
 <div class="container">
-      <div class="row">
-         <div class="col">
-            <section class="main">
-               <br>
-               <div>
-                  <h1>
-                     Addresses
-                     <button type="button" class="btn btn-primary" (click)="redirectNewAddressPage()">New Address</button>
-                  </h1>
-               </div>
-               <table class="table">
-                  <thead>
-                     <tr>
-                        <th>Id</th>
-                        <th>Street</th>
-                        <th>Number</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Zip Code</th>
-                        <th></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr *ngFor="let address of addresses">
-                        <td>{{address.id}}</td>
-                        <td>{{address.street}}</td>
-                        <td>{{address.rsNumber}}</td>
-                        <td>{{address.city}}</td>
-                        <td>{{address.state}}</td>
-                        <td>{{address.zip}}</td>
-                        <td>
-                           <button type="button" class="btn btn-success" (click)="editAddressPage(address)">Edit</button>
-                           <button type="button" class="btn btn-danger" (click)="deleteAddressPage(address)">Delete</button>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </section>
-         </div>
+   <div class="row">
+      <div class="col">
+         <section class="main">
+            <br>
+            <div>
+               <h1>
+                  Addresses
+                  <button type="button" class="btn btn-primary" (click)="redirectNewAddressPage()">New Address</button>
+               </h1>
+            </div>
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th>Id</th>
+                     <th>Street</th>
+                     <th>Number</th>
+                     <th>City</th>
+                     <th>State</th>
+                     <th>Zip Code</th>
+                     <th></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let address of addresses">
+                     <td>{{address.id}}</td>
+                     <td>{{address.street}}</td>
+                     <td>{{address.rsNumber}}</td>
+                     <td>{{address.city}}</td>
+                     <td>{{address.state}}</td>
+                     <td>{{address.zip}}</td>
+                     <td>
+                        <button type="button" class="btn btn-success" (click)="editAddressPage(address)">Edit</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteAddressPage(address)">Delete</button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </section>
       </div>
    </div>
+</div>
