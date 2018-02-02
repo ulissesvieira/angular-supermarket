@@ -38,4 +38,8 @@ export class PaginationComponent implements OnInit {
          }
       );
    }
+
+   selectedAddress(address: any) {
+      this.selectedObject.emit(address);
+   }
 }

@@ -14,7 +14,7 @@
                </tr>
             </thead>
             <tbody>
-               <tr *ngFor="let address of pagedItems">
+               <tr *ngFor="let address of pagedItems" (dblclick)="selectedAddress(address)">
                   <td>{{address.id}}</td>
                   <td>{{address.street}}</td>
                   <td>{{address.rsNumber}}</td>
