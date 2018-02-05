@@ -1,4 +1,8 @@
 export class SpringRouting {
+   static get OAUTH_TOKEN() {
+      return 'app/oauth/token';
+   }
+
    static get PRODUCT_LISTING() {
       return 'app/product/list';
    }
