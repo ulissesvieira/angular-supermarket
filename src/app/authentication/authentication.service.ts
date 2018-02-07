@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+// import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -14,30 +15,30 @@ import { SpringRouting } from '../utils/spring-routing.class';
 export class AuthenticationService {
 
    constructor(private router: Router,
-      private http: Http) { }
+      private http: HttpClient) { }
 
    obtainAccessToken(login: Login) {
-      const params = new URLSearchParams();
-      params.append('username', login.username);
-      params.append('password', login.password);
-      params.append('grant_type', 'password');
-      params.append('client_id', 'my-trusted-client');
+      let params = new HttpParams();
+      params = params.append('username', login.username);
+      params = params.append('password', login.password);
+      params = params.append('grant_type', 'password');
+      params = params.append('client_id', 'my-trusted-client');
 
-      const headers = new Headers({
+      const headers = new HttpHeaders({
          'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
          'Authorization': 'Basic ' + btoa('my-trusted-client:secret')
       });
-      const options = new RequestOptions({ headers: headers });
+      const options = { headers: headers };
       console.log(params);
 
       this.http.post(SpringRouting.OAUTH_TOKEN, params.toString(), options)
-               .map(res => res.json())
                .subscribe(
-                  data => this.saveToken(data),
+                  data => {
+                     this.saveToken(data);
+                     this.checkCredencials();
+                  },
                   err => console.log(err)
                );
-
-      this.checkCredencials();
    }
 
    saveToken(token) {
@@ -53,26 +54,28 @@ export class AuthenticationService {
    }
 
    refreshToken(): Observable<string> {
-      const params = new URLSearchParams();
-      params.append('refresh_token', Cookie.get('refresh_token'));
-      params.append('grant_type', 'refresh_token');
-      params.append('client_id', 'my-trusted-client');
+      let params = new HttpParams();
+      params = params.append('refresh_token', Cookie.get('refresh_token'));
+      params = params.append('grant_type', 'refresh_token');
+      params = params.append('client_id', 'my-trusted-client');
 
-      const headers = new Headers({
+      const headers = new HttpHeaders({
          'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
          'Authorization': 'Basic ' + btoa('my-trusted-client:secret')
       });
-      const options = new RequestOptions({ headers: headers });
+      const options = { headers: headers };
       console.log(params);
 
       this.http.post(SpringRouting.OAUTH_TOKEN, params.toString(), options)
-               .map(res => res.json())
                .subscribe(
-                  data => this.saveToken(data),
+                  data => {
+                     this.saveToken(data);
+                     return of(this.getToken());
+                  },
                   err => console.log(err)
                );
 
-      return of(this.getToken());
+      return null;
    }
 
    checkCredencials() {

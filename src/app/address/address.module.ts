@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { UtilsModule } from '../utils/utils.module';
 
@@ -15,8 +15,8 @@ import { AddressListComponent } from './address-list/address-list.component';
     AddressRoutingModule,
     UtilsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpClientModule
   ],
-  declarations: [AddressCreateComponent, AddressListComponent]
+  declarations: [AddressCreateComponent, AddressListComponent],
 })
 export class AddressModule { }

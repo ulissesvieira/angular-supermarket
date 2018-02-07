@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpSentEvent, HttpHeaderResponse } from '@angular/common/http';
 import { HttpProgressEvent, HttpResponse, HttpUserEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -13,37 +13,46 @@ import 'rxjs/add/operator/take';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable()
-export class RequestInterceptorService implements HttpInterceptor {
+export class RequestInterceptor implements HttpInterceptor {
+   private authenticationService: AuthenticationService;
    private isRefreshingToken = false;
    tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-   constructor(private authenticationService: AuthenticationService) { }
+   constructor(private injector: Injector) { }
 
    addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
-      return req.clone({ setHeaders: { Authorization: 'Bearer ' + token } });
+      if (token) {
+         return req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+      }
+
+      return req;
    }
 
    intercept(req: HttpRequest<any>, next: HttpHandler):
       Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
-      return next.handle(this.addToken(req, this.authenticationService.getToken()))
+
+      this.authenticationService = this.injector.get(AuthenticationService);
+
+      const request = this.addToken(req, this.authenticationService.getToken());
+      return next.handle(request)
          .catch(
-         error => {
-            if (error instanceof HttpErrorResponse) {
-               switch ((<HttpErrorResponse>error).status) {
-                  case 400:
-                     this.handle400Error(error);
-                     break;
-                  case 401:
-                     this.handle401Error(req, next);
-                     break;
-                  case 419:
-                     this.handle419Error(req, next);
-                     break;
+            error => {
+               if (error instanceof HttpErrorResponse) {
+                  switch ((<HttpErrorResponse>error).status) {
+                     case 400:
+                        this.handle400Error(error);
+                        break;
+                     case 401:
+                        this.handle401Error(req, next);
+                        break;
+                     case 419:
+                        this.handle419Error(req, next);
+                        break;
+                  }
+               } else {
+                  return Observable.throw(error);
                }
-            } else {
-               return Observable.throw(error);
             }
-         }
          );
    }
 

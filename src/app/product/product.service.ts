@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/observable';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 import { Product } from './product.class';
 import { SpringRouting } from '../utils/spring-routing.class';
@@ -13,24 +13,21 @@ export class ProductService {
    private FIRST_ID = 0;
    private errorProduct = new Product(-1, 'SKU_ERROR', 'Error');
 
-   constructor(private http: Http) { }
+   constructor(private http: HttpClient) { }
 
    getAllProducts(): Observable<Product[]> {
       return this.http.get(SpringRouting.PRODUCT_LISTING)
-                      .map((res: Response) => res.json())
                       .catch(this.handleErrors);
    }
 
    saveProduct(product: Product): Observable<Product> {
       return this.http.post(SpringRouting.PRODUCT_SAVE, product)
-                      .map((res: Response) => res.json())
                       .catch(this.handleErrors);
    }
 
    findById(id: number): Observable<Product> {
       const prod: Observable<Product> =
              this.http.get(SpringRouting.PRODUCT_FIND_BY_ID + id)
-                      .map((res: Response) => res.json())
                       .catch(this.handleErrors);
 
       if (prod == null) {
@@ -46,18 +43,16 @@ export class ProductService {
 
    updateProduct(product: Product): Observable<Product> {
       return this.http.put(SpringRouting.PRODUCT_UPDATE, product)
-                      .map((res: Response) => res.json())
                       .catch(this.handleErrors);
    }
 
    deleteProduct(product: Product): Observable<Boolean> {
       return this.http.delete(SpringRouting.PRODUCT_DELETE + product.id)
-                      .map((res: Response) => res.json())
                       .catch(this.handleErrors);
    }
 
-   handleErrors(errors: any): Observable<Product[]> {
+   handleErrors(errors: any): Observable<any> {
       console.log(errors);
-      return Observable.throw(errors.json().error || 'Server error');
+      return Observable.throw(errors || 'Server error');
    }
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { UtilsModule } from '../utils/utils.module';
@@ -12,7 +12,7 @@ import { ProductCreateComponent } from './product-create/product-create.componen
    imports: [
       CommonModule,
       ProductRoutingModule,
-      HttpModule,
+      HttpClientModule,
       ReactiveFormsModule,
       UtilsModule
    ],
