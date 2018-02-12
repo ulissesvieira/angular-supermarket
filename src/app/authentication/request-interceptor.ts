@@ -21,15 +21,19 @@ export class RequestInterceptor implements HttpInterceptor {
    constructor(private injector: Injector) { }
 
    addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
-      if (token) {
+      let isNotRefreshReq = true;
+      if (req.body) {
+         isNotRefreshReq = req.body.toString().indexOf('refresh_token') === -1;
+      }
+
+      if (token && isNotRefreshReq) {
          return req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
       }
 
       return req;
    }
 
-   intercept(req: HttpRequest<any>, next: HttpHandler):
-      Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
+   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
 
       this.authenticationService = this.injector.get(AuthenticationService);
 
@@ -85,23 +89,23 @@ export class RequestInterceptor implements HttpInterceptor {
       this.tokenSubject.next(null);
 
       return this.authenticationService.refreshToken()
-         .switchMap((newToken: string) => {
-            if (newToken) {
-               this.tokenSubject.next(newToken);
-               return next.handle(this.addToken(req, newToken));
-            } else {
-               // If we don't get a new token, we are in trouble so logout.
-               this.logoutUser();
-            }
-         })
-         .catch(error => {
-            // If there is an exception calling 'refreshToken', bad news so logout.
-            this.logoutUser();
-            return Observable.throw(error.json().error || 'Refresh Token error');
-         })
          .finally(() => {
             this.isRefreshingToken = false;
-         });
+         })
+         .subscribe(
+            (newToken: string) => {
+               if (newToken && newToken.length !== 0) {
+                  this.tokenSubject.next(newToken);
+                  return next.handle(this.addToken(req, newToken));
+               } else {
+                  this.logoutUser();
+               }
+            },
+            errs => {
+               this.logoutUser();
+               return Observable.throw(errs.json().error || 'Refresh Token error');
+            },
+         );
    }
 
    logoutUser() {
